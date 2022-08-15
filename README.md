@@ -1,1 +1,1 @@
-Hosted at [https://superfim.us](superfim.us)!
+Tool to track weight loss. Hosted at [superfim.us](https://superfim.us). To run locally, use `npm run start`.
