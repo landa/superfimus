@@ -12,6 +12,10 @@ table td.success {
   background-color: #efe;
 }
 
-table td.failure {
+table td.missing {
   background-color: rgb(253, 255, 238);
+}
+
+table td.failure {
+  background-color: #fff2ee;
 }
