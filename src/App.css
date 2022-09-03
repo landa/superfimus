@@ -19,3 +19,21 @@ table td.missing {
 table td.failure {
   background-color: #fff2ee;
 }
+
+.card {
+  margin-top: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+@media (max-width: 992px) {
+  table {
+    font-size: 0.75em;
+  }
+
+  .card {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 1em;
+  }
+}

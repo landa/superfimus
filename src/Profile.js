@@ -1,27 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
-import { Button, Card, Form, Modal, Table } from "react-bootstrap";
-import { AiFillStar } from "react-icons/ai";
-import { BiCalendarCheck, BiTrendingDown, BiWalk } from "react-icons/bi";
-import { BsCheckCircle, BsPencil } from "react-icons/bs";
-import { CgCalendar, CgClose, CgTrash } from "react-icons/cg";
-import { GiBiceps } from "react-icons/gi";
-import { GrAddCircle } from "react-icons/gr";
-import { MdNoFood } from "react-icons/md";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale,
-  Filler,
+  CategoryScale, Chart as ChartJS, Filler, Legend, LinearScale, LineElement, PointElement, TimeScale, Title,
+  Tooltip
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Card, Form, Modal, Table } from "react-bootstrap";
+import { Line } from "react-chartjs-2";
+import { BiCalendarCheck, BiTrendingDown, BiWalk } from "react-icons/bi";
+import { BsCheckCircle, BsPencil } from "react-icons/bs";
+import { CgClose } from "react-icons/cg";
+import { GiBiceps, GiFire, GiSmallFire } from "react-icons/gi";
+import { GrAddCircle } from "react-icons/gr";
+import { MdNoFood } from "react-icons/md";
 
 ChartJS.register(
   CategoryScale,
@@ -184,7 +175,7 @@ export default function Profile(props) {
     onSnapshot(doc(db, "profiles", props.id), (snapshot) => {
       setProfile(snapshot.data());
     });
-  }, []);
+  }, [props.id]);
 
   let dates = Object.entries(profile?.entries ?? {})
     .map(([date, value]) => (value != null ? [date, new Date(date)] : null))
@@ -219,6 +210,18 @@ export default function Profile(props) {
   const onLiftingStreak =
     trailingWeek &&
     trailingWeek.filter((x) => x in profile.entries && profile.entries[x].lifted).length >= 3;
+  let minWeight = null;
+  
+  if (profile.entries) {
+    for (const date of generateTrailingDates(lastDate, (Object.keys(profile.entries) ?? []).length)) {
+      const weight = profile.entries[dateToString(date)].weight;
+      if (minWeight === null || weight < minWeight) {
+        minWeight = weight;
+      }
+    }
+  }
+
+  const isLow = minWeight === lastWeight;
 
   return (
     profile.name && (
@@ -232,8 +235,7 @@ export default function Profile(props) {
           key={`${props.id}_${date}`}
         />
         <Card
-          className="Profile d-inline-block m-3"
-          style={{ width: "calc(min(100% - 2rem, 420px))" }}
+          className="Profile d-inline-block"
         >
           <Card.Header className="d-flex justify-content-between align-items-center">
             <div className="d-flex">
@@ -329,7 +331,7 @@ export default function Profile(props) {
                         className="d-flex align-items-center justify-content-center"
                       >
                         <div>Weight</div>
-                        {onWeightStreak && <BiTrendingDown />}
+                        {isLow ? <GiSmallFire style={{color: "#822"}} /> : onWeightStreak && <BiTrendingDown />}
                       </div>
                     </th>
                     <th>

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import logo from './logo.svg';
-import './App.css';
-import Weight from "./Weight";
-import Profile from './Profile';
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-import { Col, Container, Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import './App.css';
+import Profile from './Profile';
 
 function App() {
   const [profiles, setProfiles] = useState([]);
