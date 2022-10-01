@@ -214,6 +214,9 @@ export default function Profile(props) {
   
   if (profile.entries) {
     for (const date of generateTrailingDates(lastDate, (Object.keys(profile.entries) ?? []).length)) {
+      if (!(dateToString(date) in profile.entries)) {
+        continue;
+      }
       const weight = profile.entries[dateToString(date)].weight;
       if (minWeight === null || weight < minWeight) {
         minWeight = weight;
