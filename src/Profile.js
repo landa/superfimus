@@ -10,7 +10,7 @@ import { Line } from "react-chartjs-2";
 import { BiCalendarCheck, BiTrendingDown, BiWalk } from "react-icons/bi";
 import { BsCheckCircle, BsPencil } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
-import { GiBiceps, GiFire, GiSmallFire } from "react-icons/gi";
+import { GiBiceps, GiSmallFire } from "react-icons/gi";
 import { GrAddCircle } from "react-icons/gr";
 import { MdNoFood } from "react-icons/md";
 
@@ -226,6 +226,10 @@ export default function Profile(props) {
 
   const isLow = minWeight === lastWeight;
 
+  if (!profile.active) {
+    return <></>;
+  }
+
   return (
     profile.name && (
       <>
@@ -247,7 +251,7 @@ export default function Profile(props) {
               {weightToLose && (
                 <>
                   {Math.abs(weightDown.toFixed(1))} lbs {weightDown >= 0 ? "lost" : "gained"} in{" "}
-                  {daysElapsed} day{daysElapsed > 1 && "s"}
+                  {daysElapsed} day{daysElapsed != 1 && "s"}
                 </>
               )}
             </div>
