@@ -251,7 +251,7 @@ export default function Profile(props) {
               {weightToLose && (
                 <>
                   {Math.abs(weightDown.toFixed(1))} lbs {weightDown >= 0 ? "lost" : "gained"} in{" "}
-                  {daysElapsed} day{daysElapsed != 1 && "s"}
+                  {daysElapsed} day{daysElapsed !== 1 && "s"}
                 </>
               )}
             </div>
